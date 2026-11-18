@@ -39,10 +39,10 @@ def inicio():
 @app.route("/guardar", methods=["POST"])
 def guardar():
     nombre = request.form["nombre"]
-    descripcion = request.form["descripcion"]
-    precio = float(request.form["precio"])
-    cantidad = int(request.form["cantidad"])
-    categoria = request.form["categoria"]
+    descripcion = request.form.get ("descripcion") .strip()
+    precio = float(request.form.get("precio")) .strip()
+    cantidad = int(request.form.get ("cantidad")) .strip()
+    categoria = request.form.get("categoria") .strip()
 
     conexion = conectar()
 
@@ -63,9 +63,8 @@ def guardar():
 def mostrar_productos():
     conexion = conectar()
 
-    productos = conexion.execute(
-        "SELECT * FROM productos ORDER BY id DESC"
-    ).fetchall()
+    cursor = conexion.execute("SELECT * FROM productos ORDER BY id DESC")
+    productos= cursor.fetchall()
 
     conexion.close()
 
